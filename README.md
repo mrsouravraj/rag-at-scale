@@ -4,6 +4,23 @@ A hands-on learning repo that rebuilds an agentic RAG pipeline from scratch, ste
 
 This is a lightweight, self-paced version of the full H100 project in `../rag-zero-hallucinations`. The full project uses `Qwen3-32B`, `Qwen3-Embedding-8B`, and a single NVIDIA H100 80GB GPU. This learning edition uses `Qwen2.5-1.5B-Instruct`, `all-MiniLM-L6-v2`, and your CPU (or a small GPU) so you can learn the architecture without cloud costs.
 
+## Architecture
+
+![RAG pipeline architecture](docs/architecture.svg)
+
+The diagram source is in [`docs/architecture.d2`](docs/architecture.d2). Regenerate with:
+
+```bash
+d2 docs/architecture.d2 docs/architecture.svg
+```
+
+The pipeline has four hallucination-control layers:
+
+1. **Retrieve** with hybrid dense + sparse search, fused and reranked.
+2. **Constrain** generation so the model answers only from retrieved context and cites chunk IDs.
+3. **Verify** every claim with an NLI faithfulness model.
+4. **Abstain** when evidence or verifier support falls below a calibrated threshold.
+
 ## What you'll build
 
 A complete RAG agent that:
@@ -52,6 +69,9 @@ Don't run the whole notebook at once. Use `LEARNING_PATH.md` as your guide. It b
 │   ├── contextual_retrieval.py                 # LLM-powered chunk contextualization
 │   ├── latency_dashboard.py                    # per-stage latency & cost aggregation
 │   └── README.md                               # scale artifacts guide
+├── docs/
+│   ├── architecture.d2                         # D2 architecture diagram source
+│   └── architecture.svg                        # rendered architecture diagram
 ├── LEARNING_PATH.md                            # step-by-step study guide
 ├── requirements-learning.txt                   # CPU-friendly dependencies
 └── README.md                                   # this file

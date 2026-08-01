@@ -1,0 +1,212 @@
+direction: down
+
+Ingestion: {
+  label: |md
+    **1. Ingestion**
+  |
+  style: {
+    fill: "#FFF2CC"
+    stroke: "#D6B656"
+    stroke-width: 2
+  }
+
+  Corpus: {
+    shape: cylinder
+    label: Raw corpus
+    style.fill: "#FFF2CC"
+  }
+
+  Normalize: {
+    label: |md
+      Normalize & dedup
+      MinHash LSH
+    |
+  }
+
+  Chunk: {
+    label: |md
+      Structure-aware chunking
+      sentences + token limit + overlap
+    |
+  }
+
+  Contextualize: {
+    label: |md
+      Contextual retrieval
+      (optional)
+    |
+  }
+
+  Corpus -> Normalize -> Chunk -> Contextualize
+}
+
+Indexing: {
+  label: |md
+    **2. Indexing**
+  |
+  style: {
+    fill: "#D5E8D4"
+    stroke: "#82B366"
+    stroke-width: 2
+  }
+
+  Embed: {
+    label: |md
+      Dense embeddings
+      LanceDB
+    |
+  }
+
+  BM25: {
+    label: |md
+      Sparse keyword index
+      BM25
+    |
+  }
+}
+
+Retrieval: {
+  label: |md
+    **3. Retrieval**
+  |
+  style: {
+    fill: "#E1D5E7"
+    stroke: "#9673A6"
+    stroke-width: 2
+  }
+
+  Question: {
+    shape: oval
+    label: User question
+  }
+
+  Router: {
+    shape: diamond
+    label: Query router
+  }
+
+  Decomposer: {
+    label: Decomposer
+  }
+
+  Hybrid: {
+    label: |md
+      Hybrid search
+      dense + BM25
+    |
+  }
+
+  RRF: {
+    label: RRF fusion
+  }
+
+  Rerank: {
+    label: Cross-encoder reranker
+  }
+
+  Question -> Router
+  Router -> Decomposer: multi-hop
+  Router -> Hybrid: simple
+  Decomposer -> Hybrid
+}
+
+Generation: {
+  label: |md
+    **4. Constrained generation**
+  |
+  style: {
+    fill: "#F8CECC"
+    stroke: "#B85450"
+    stroke-width: 2
+  }
+
+  Generate: {
+    label: |md
+      Generate answer
+      cite [chunk_id] or ABSTAIN
+    |
+  }
+
+  CiteValidate: {
+    label: Citation validator
+  }
+}
+
+Verification: {
+  label: |md
+    **5. Verification & abstention**
+  |
+  style: {
+    fill: "#DAE8FC"
+    stroke: "#6C8EBF"
+    stroke-width: 2
+  }
+
+  NLI: {
+    label: |md
+      NLI verifier
+      entailment / contradiction / neutral
+    |
+  }
+
+  Policy: {
+    label: |md
+      Abstention policy
+      support < τ → ABSTAIN
+    |
+  }
+}
+
+Output: {
+  label: |md
+    **6. Output**
+  |
+  style: {
+    fill: "#E8F4FD"
+    stroke: "#1F77B4"
+    stroke-width: 2
+  }
+
+  Answer: {
+    shape: oval
+    label: Answer with citations
+  }
+
+  Abstain: {
+    shape: oval
+    label: ABSTAIN
+  }
+}
+
+Evaluation: {
+  label: |md
+    **7. Evaluation**
+  |
+  style: {
+    fill: "#F5F5F5"
+    stroke: "#666666"
+    stroke-width: 2
+  }
+
+  Eval: {
+    label: |md
+      Confusion matrix
+      risk-coverage curve
+    |
+  }
+}
+
+Ingestion.Contextualize -> Indexing.Embed
+Ingestion.Contextualize -> Indexing.BM25
+
+Indexing.Embed -> Retrieval.Hybrid
+Indexing.BM25 -> Retrieval.Hybrid
+
+Retrieval.Hybrid -> Retrieval.RRF -> Retrieval.Rerank -> Generation.Generate
+Generation.Generate -> Generation.CiteValidate -> Verification.NLI -> Verification.Policy
+
+Verification.Policy -> Output.Answer: support ≥ τ
+Verification.Policy -> Output.Abstain: support < τ
+
+Output.Answer -> Evaluation.Eval
+Output.Abstain -> Evaluation.Eval
