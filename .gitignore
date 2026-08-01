@@ -216,3 +216,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project-specific: generated data and IDE settings
+.idea/
+learning_data/
+learning_scratch/
+download_models.py

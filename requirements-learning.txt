@@ -1,0 +1,42 @@
+# ============================================================================
+# Lightweight dependencies for learning the RAG pipeline on CPU / small GPU
+# ============================================================================
+
+# Core ML / transformer stack
+torch>=2.0
+transformers>=4.40
+sentence-transformers>=3.0
+accelerate>=0.25
+safetensors
+einops
+
+# Retrieval / hybrid index
+lancedb>=0.15
+bm25s>=0.2
+PyStemmer
+datasketch
+
+# Agent orchestration
+langgraph>=0.2.50
+langchain-core>=0.3
+
+# Evaluation / metrics
+scikit-learn
+scipy
+pandas
+numpy
+
+# Data loading
+datasets>=3.0
+huggingface_hub
+
+# Notebook execution & visualization
+papermill>=2.6
+jupytext>=1.16
+ipykernel
+jupyter-client
+nbformat
+matplotlib
+tqdm
+pydantic>=2
+requests
