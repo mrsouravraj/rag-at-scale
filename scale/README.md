@@ -12,7 +12,7 @@ changes when you move to real scale.
 | File | What it is |
 |------|------------|
 | `config_full_scale.py` | H100 target configuration: model names, corpus sizes, thresholds, hardware assumptions. |
-| `scale_lab.py` | Builds real LanceDB indexes at 100k / 1M / 10M vectors and measures build time, disk, p50/p95 latency, and recall@10. |
+| `scale_lab.py` | Builds LanceDB indexes from **real corpus embeddings** at 100k / 1M / 10M vectors and measures build time, disk, p50/p95 latency, and recall@10. No synthetic vectors. |
 | `contextual_retrieval.py` | Anthropic-style contextual retrieval: prepend an LLM-written one-line context to every chunk before indexing. |
 | `latency_dashboard.py` | Aggregate per-stage latencies and build a headline metrics card. |
 
