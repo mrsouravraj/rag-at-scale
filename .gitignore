@@ -91,24 +91,30 @@ cover/
 # ML / RAG generated artifacts (do not commit models, indexes, or outputs)
 # -----------------------------------------------------------------------------
 
-# Hugging Face cache (if stored inside the project)
-learning_data/hf/
-learning_data/datasets/
+# Generated data directories (match anywhere in the repo)
+**/learning_data/
+**/learning_scratch/
 
-# LanceDB vector indexes
-learning_data/artifacts/lancedb/
-learning_data/artifacts/**/*.lance
-learning_data/artifacts/**/data/
+# Hugging Face cache (if stored inside the project)
+hf/
+datasets/
+
+# LanceDB vector indexes (anywhere)
+**/lancedb/
+**/*.lance
 
 # Serialized indexes and checkpoints
-learning_data/artifacts/**/*.pkl
-learning_data/artifacts/**/*.json
-learning_data/artifacts/**/*.pt
-learning_data/artifacts/**/*.safetensors
+**/*.pkl
+**/*.pt
+**/*.safetensors
 
 # Result outputs and figures
-learning_data/out/
-learning_scratch/
+**/out/
+figures/
+
+# Run manifests and logs
+results/
+run_manifest.json
 
 # Run manifests and logs
 results/
