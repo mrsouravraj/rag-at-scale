@@ -46,6 +46,12 @@ Don't run the whole notebook at once. Use `LEARNING_PATH.md` as your guide. It b
 .
 ├── notebooks/
 │   └── rag_zero_hallucination_learning.ipynb   # the hands-on notebook
+├── scale/                                      # production-scale reference code
+│   ├── config_full_scale.py                    # H100 target configuration
+│   ├── scale_lab.py                            # 100K -> 1M -> 10M vector benchmark
+│   ├── contextual_retrieval.py                 # LLM-powered chunk contextualization
+│   ├── latency_dashboard.py                    # per-stage latency & cost aggregation
+│   └── README.md                               # scale artifacts guide
 ├── LEARNING_PATH.md                            # step-by-step study guide
 ├── requirements-learning.txt                   # CPU-friendly dependencies
 └── README.md                                   # this file
@@ -71,6 +77,17 @@ Once you understand the learning version, the jump to the full pipeline is mostl
 | Corpus | 500 passages | 20K–50K+ passages |
 | Scale lab | skipped | real 100K → 1M → 10M vector index |
 | Hardware | laptop CPU | NVIDIA H100 80GB |
+
+## Scale reference code
+
+The `scale/` directory contains the production-scale pieces extracted from the full H100 notebook. Use these when you are ready to move beyond laptop experiments:
+
+- **`scale/config_full_scale.py`** — full H100 config: `Qwen3-32B`, `Qwen3-Embedding-8B`, `Bespoke-MiniCheck-7B`, corpus sizes, thresholds, and hardware assumptions.
+- **`scale/scale_lab.py`** — literally builds LanceDB indexes at 100K / 1M / 10M vectors, measures build time, on-disk size, p50/p95 query latency, and recall@10, then projects to 100M.
+- **`scale/contextual_retrieval.py`** — Anthropic-style contextual retrieval that prepends an LLM-written situating sentence to every chunk before indexing.
+- **`scale/latency_dashboard.py`** — aggregates per-stage latencies and builds a headline metrics card for cost analysis.
+
+These are reference implementations. You will need to adapt them to your own `Chunk`, corpus, and LLM client abstractions.
 
 ## Key papers & ideas behind this pipeline
 

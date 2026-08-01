@@ -112,14 +112,11 @@ datasets/
 **/out/
 figures/
 
-# Run manifests and logs
-results/
-run_manifest.json
-
-# Run manifests and logs
-results/
-run_manifest.json
-*.log
+# -----------------------------------------------------------------------------
+# Scale-lab scratch directories
+# -----------------------------------------------------------------------------
+scale_scratch/
+scratch/
 
 # -----------------------------------------------------------------------------
 # Project-specific helpers (not part of the shared codebase)
